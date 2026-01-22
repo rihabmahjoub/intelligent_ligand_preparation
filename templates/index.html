@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Intelligent Ligand Preparation</title>
+    <script src="https://3dmol.org/build/3Dmol-min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h1>Intelligent Ligand Preparation & AI Evaluation</h1>
+
+<form method="post">
+    <input type="text" name="chembl_id" placeholder="Enter CHEMBL ID" required>
+    <button type="submit">Prepare Ligand</button>
+</form>
+
+{% if data %}
+<hr>
+
+<h2>Ligand {{ data.chembl_id }}</h2>
+<p><b>Class:</b> {{ data.class }}</p>
+<p><b>AI Quality Score:</b> {{ data.ai_score }}/100</p>
+<p><b>Decision:</b> {{ data.decision }}</p>
+
+<ul>
+    <li>MW: {{ data.features.MW }}</li>
+    <li>LogP: {{ data.features.LogP }}</li>
+    <li>Rotatable Bonds: {{ data.features.RotB }}</li>
+    <li>TPSA: {{ data.features.TPSA }}</li>
+</ul>
+
+<div class="viewer-container">
+
+    <div>
+        <h3>Before preparation</h3>
+        <div id="viewer_before" class="viewer"></div>
+    </div>
+
+    <div>
+        <h3>After preparation</h3>
+        <div id="viewer_after" class="viewer"></div>
+    </div>
+
+</div>
+
+<script>
+var v1 = $3Dmol.createViewer("viewer_before");
+v1.addModel(`{{ data.pdb_before }}`, "pdb");
+v1.setStyle({stick:{}});
+v1.zoomTo();
+v1.render();
+
+var v2 = $3Dmol.createViewer("viewer_after");
+v2.addModel(`{{ data.pdb_after }}`, "pdb");
+v2.setStyle({stick:{}});
+v2.zoomTo();
+v2.render();
+</script>
+
+{% endif %}
+
+</body>
+</html>
+
