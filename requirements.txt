@@ -1,5 +1,7 @@
 flask
-rdkit-pypi
 chembl-webresource-client
 meeko
+rdkit-pypi
+numpy<2
+
 
