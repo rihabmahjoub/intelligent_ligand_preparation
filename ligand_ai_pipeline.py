@@ -3,7 +3,6 @@
 from rdkit import Chem
 from rdkit.Chem import Descriptors, AllChem
 from chembl_webresource_client.new_client import new_client
-from meeko import MoleculePreparation
 
 # =========================================================
 # 1. Fetch ligand from ChEMBL
@@ -83,16 +82,6 @@ def decision_message(lig_class):
     else:
         return "✅ Ligand suitable for classical molecular docking"
 
-# =========================================================
-# 8. Save PDBQT
-# =========================================================
-def save_pdbqt(mol, chembl_id):
-    prep = MoleculePreparation()
-    prep.prepare(mol)
-    filename = f"{chembl_id}.pdbqt"
-    with open(filename, "w") as f:
-        f.write(prep.write_pdbqt_string())
-    return filename
 
 # =========================================================
 # 9. MAIN PIPELINE FUNCTION (USED BY FLASK)
@@ -109,7 +98,7 @@ def run_ligand_pipeline(chembl_id):
     ai_score = ai_quality_score(features)
     decision = decision_message(lig_class)
 
-    pdbqt_file = save_pdbqt(mol_after, chembl_id)
+    pdbqt_file = None
 
     return {
         "chembl_id": chembl_id,
