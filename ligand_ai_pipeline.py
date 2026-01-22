@@ -1,10 +1,6 @@
-#!/usr/bin/env python3
-
-from rdkit import Chem
-from rdkit.Chem import Descriptors, AllChem
+from rdkit import chem
+from rdkit.chem import Descriptors, Allchem
 from chembl_webresource_client.new_client import new_client
-
-# =========================================================
 # 1. Fetch ligand from ChEMBL
 # =========================================================
 def fetch_ligand(chembl_id):
@@ -81,9 +77,6 @@ def decision_message(lig_class):
         return "ℹ️ Ligand is small and suitable for fragment-based docking"
     else:
         return "✅ Ligand suitable for classical molecular docking"
-
-
-# =========================================================
 # 9. MAIN PIPELINE FUNCTION (USED BY FLASK)
 # =========================================================
 def run_ligand_pipeline(chembl_id):
@@ -106,6 +99,4 @@ def run_ligand_pipeline(chembl_id):
         "decision": decision,
         "pdb_before": Chem.MolToPDBBlock(mol_before),
         "pdb_after": Chem.MolToPDBBlock(mol_after),
-    
     }
-
