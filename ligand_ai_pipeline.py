@@ -1,5 +1,5 @@
-from rdkit import chem
-from rdkit.chem import Descriptors, Allchem
+from rdkit import Chem
+from rdkit.Chem import Descriptors, AllChem
 from chembl_webresource_client.new_client import new_client
 # 1. Fetch ligand from ChEMBL
 # =========================================================
