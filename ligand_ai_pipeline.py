@@ -98,8 +98,6 @@ def run_ligand_pipeline(chembl_id):
     ai_score = ai_quality_score(features)
     decision = decision_message(lig_class)
 
-    pdbqt_file = None
-
     return {
         "chembl_id": chembl_id,
         "features": features,
@@ -108,6 +106,6 @@ def run_ligand_pipeline(chembl_id):
         "decision": decision,
         "pdb_before": Chem.MolToPDBBlock(mol_before),
         "pdb_after": Chem.MolToPDBBlock(mol_after),
-        "pdbqt_file": pdbqt_file
+    
     }
 
