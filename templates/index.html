@@ -1,8 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Intelligent Ligand Preparation</title>
+
+    <!-- 3Dmol -->
     <script src="https://3dmol.org/build/3Dmol-min.js"></script>
+
+    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
@@ -10,34 +15,38 @@
 
 <h1>Intelligent Ligand Preparation & AI Evaluation</h1>
 
-<form method="post">
+<form method="post" class="form-box">
     <input type="text" name="chembl_id" placeholder="Enter CHEMBL ID" required>
     <button type="submit">Prepare Ligand</button>
 </form>
 
 {% if data %}
+
 <hr>
 
 <h2>Ligand {{ data.chembl_id }}</h2>
-<p><b>Class:</b> {{ data.class }}</p>
-<p><b>AI Quality Score:</b> {{ data.ai_score }}/100</p>
-<p><b>Decision:</b> {{ data.decision }}</p>
 
-<ul>
-    <li>MW: {{ data.features.MW }}</li>
-    <li>LogP: {{ data.features.LogP }}</li>
-    <li>Rotatable Bonds: {{ data.features.RotB }}</li>
-    <li>TPSA: {{ data.features.TPSA }}</li>
-</ul>
+<div class="info-box">
+    <p><b>Class:</b> {{ data.class }}</p>
+    <p><b>AI Quality Score:</b> {{ data.ai_score }}/100</p>
+    <p><b>Decision:</b> {{ data.decision }}</p>
+
+    <ul>
+        <li>MW: {{ data.features.MW }}</li>
+        <li>LogP: {{ data.features.LogP }}</li>
+        <li>Rotatable Bonds: {{ data.features.RotB }}</li>
+        <li>TPSA: {{ data.features.TPSA }}</li>
+    </ul>
+</div>
 
 <div class="viewer-container">
 
-    <div>
+    <div class="viewer-box">
         <h3>Before preparation</h3>
         <div id="viewer_before" class="viewer"></div>
     </div>
 
-    <div>
+    <div class="viewer-box">
         <h3>After preparation</h3>
         <div id="viewer_after" class="viewer"></div>
     </div>
@@ -45,21 +54,24 @@
 </div>
 
 <script>
-var v1 = $3Dmol.createViewer("viewer_before");
-v1.addModel(`{{ data.pdb_before }}`, "pdb");
-v1.setStyle({stick:{}});
-v1.zoomTo();
-v1.render();
+window.onload = function () {
 
-var v2 = $3Dmol.createViewer("viewer_after");
-v2.addModel(`{{ data.pdb_after }}`, "pdb");
-v2.setStyle({stick:{}});
-v2.zoomTo();
-v2.render();
+    var v1 = $3Dmol.createViewer("viewer_before", {backgroundColor: "white"});
+    v1.addModel(`{{ data.pdb_before }}`, "pdb");
+    v1.setStyle({}, {stick: {}});
+    v1.zoomTo();
+    v1.render();
+
+    var v2 = $3Dmol.createViewer("viewer_after", {backgroundColor: "white"});
+    v2.addModel(`{{ data.pdb_after }}`, "pdb");
+    v2.setStyle({}, {stick: {}});
+    v2.zoomTo();
+    v2.render();
+
+};
 </script>
 
 {% endif %}
 
 </body>
 </html>
-
