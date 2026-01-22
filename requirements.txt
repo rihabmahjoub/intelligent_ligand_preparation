@@ -1,7 +1,5 @@
 flask
 chembl-webresource-client
 rdkit-pypi
-meeko
-gemmi
 numpy<2
 scipy<1.12
